@@ -99,7 +99,7 @@ public class GUI
 
 	
     
-	URL GameOver = getClass().getResource("/image/ovm.png");
+	URL GameOver = getClass().getResource("/image/over.png");
 
 
     
