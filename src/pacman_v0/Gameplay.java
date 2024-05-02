@@ -312,10 +312,10 @@ public class Gameplay implements KeyListener
 			blueGhost.updateDirection();
 			greenGhost.updateDirection();
 			orangeGhost.updateDirection();
-			/*if(redGhost.verifGameover()||blueGhost.verifGameover()||greenGhost.verifGameover()||orangeGhost.verifGameover()) {
-				chances--;
-				gui.restart();
-			}*/
+			if(redGhost.verifGameover()||blueGhost.verifGameover()||greenGhost.verifGameover()||orangeGhost.verifGameover()) {
+				gui.decrementHearts();
+				gui.restart(board);
+			}
 				/*if((redGhost.verifGameover()||blueGhost.verifGameover()||greenGhost.verifGameover()||orangeGhost.verifGameover())&& !assureOneTimeChance&&chances>0) {
 					//gui.getBoardLabels()[pacman.getPacmanI()][pacman.getPacmanJ()].setIcon(null);
 					//board.restartBoard();
@@ -334,6 +334,16 @@ public class Gameplay implements KeyListener
 					
 					if(redGhost.verifGameover()||blueGhost.verifGameover()||greenGhost.verifGameover()||orangeGhost.verifGameover()) {
 						gui.redirect("gameover", "10", "10", "10");
+						Audio.closeClip();
+						Audio.startClip(gui.musicGameOver);
+						Thread.sleep(1500);
+						Audio.closeClip();
+						if(board.getScore()>Integer.parseInt(SaveData.getMostScored())) {
+							SaveData.SetScore(String.valueOf(board.getScore()));
+							System.out.println("You Won . you break new record !");
+
+						}
+
 						break;
 					}
 					

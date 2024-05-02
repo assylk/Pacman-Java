@@ -34,7 +34,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 
@@ -65,7 +64,7 @@ public class GUI
     
     private JButton mapButton1 = new JButton("Map 1"); ;
     private JButton mapButton2 = new JButton("Map 2"); ;
-
+    private JButton returnmenu=new JButton("Return To Menu");
     //creating intro composants
 	URL imageISMAIK = getClass().getResource("/image/ISMAIK.jpg");
 
@@ -93,7 +92,8 @@ public class GUI
   	private String score;
   	private String rec;
     //game over composants
-    private JLabel scoreover=new JLabel(score);
+    @SuppressWarnings("unused")
+	private JLabel scoreover=new JLabel(score);
 
 	List<String> myList = new ArrayList<>();	
 
@@ -124,12 +124,11 @@ public class GUI
 	orangeghostIcon,
 	fruitIcon,
 	greenghostIcon,
-	pacmanIconleft,
 	wall,
 	wood;
 	PacManMoves pacman=new PacManMoves();
 	private JPanel boardPanel = new JPanel(new GridLayout(Board.getWidth(), Board.getWidth()));//gameboard panel
-    private static int remainingHearts = 3; // Number of hearts initially
+    static int remainingHearts = 3; // Number of hearts initially
 
 	private static JLabel[][] boardLabels = new JLabel[Board.getWidth()][Board.getWidth()];//gameboard cells
 	public URL gameplaySound = getClass().getResource("/Audio/gameplay.wav");
@@ -140,6 +139,8 @@ public class GUI
 
 	private URL menuClickSound =getClass().getResource("/Audio/clicksound.wav");
 	private URL menuMusic =getClass().getResource("/Audio/menumusic.wav");
+	public URL musicGameOver =getClass().getResource("/Audio/GameOver.wav");
+
 
 
 
@@ -154,6 +155,7 @@ public class GUI
 	@SuppressWarnings("serial")
 	public static int chances=3;
 
+	@SuppressWarnings("serial")
 	public GUI (Board board , PacManMoves pacman) throws IOException
 	{	
 
@@ -254,7 +256,7 @@ public class GUI
 				cardLayout.show(mainPanel,"startMenu");
 			}
 		};
-		ActionListener returnMainMenu = new ActionListener() //action required to move to main menu
+		new ActionListener() //action required to move to main menu
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
@@ -392,7 +394,6 @@ public class GUI
         introPanel.setLayout(null);
         
         
-        
 
         JButton introButton = new JButton() ;
         introButton.setBounds(230, 444, 150, 45);
@@ -494,7 +495,7 @@ public class GUI
         titleRec.setFont(new Font("DejaVu Sans Mono", Font.BOLD, 20));
         titleRec.setText(rec);
         titleRec.setForeground(Color.WHITE);
-        
+        returnmenu.setBounds(100,100,100,100);
         
         introTitle.setFont(new Font("DejaVu Sans Mono", Font.BOLD, 30));
         introTitle.setText("Best Score is : "+this.bestScore+" Your Score is : "+this.score);
@@ -592,30 +593,30 @@ public class GUI
         highscoreTitle = new JLabel();
         highscoreTitle.setPreferredSize(new Dimension(400,70));
         //highScorePanel.add(highscoreTitle);
-
+        int initialY = 100;
+        int labelHeight = 40;
         highScorePanel.setForeground(Color.WHITE);
         highscoreTitle.setFont(new Font("DejaVu Sans Mono", Font.BOLD, 10));
-        for (int i = 0; i < myList.size()-1; i++) 
-        {	
-        	highScoresLabels[i][0] = new JLabel("",SwingConstants.LEFT);
-        	highScoresLabels[i][0].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.YELLOW),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        	highScoresLabels[i][0].setBounds(50, 100, 250,40);
-        	highScoresLabels[i][0].setText(" Player "+(i+1)+" :");
-        	highScoresLabels[i][0].setFont(new Font("Arial", Font.BOLD, 20));
-        	highScoresLabels[i][0].setForeground(Color.white);
-        	highScorePanel.add(highScoresLabels[i][0]);
-        	
-        	
-        	
-        	highScoresLabels[i][1] = new JLabel("",SwingConstants.RIGHT);
-        	highScoresLabels[i][1].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.YELLOW),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        for (int i = 0; i < myList.size(); i++) {   
+            highScoresLabels[i][0] = new JLabel("", SwingConstants.LEFT);
+            highScoresLabels[i][0].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.YELLOW),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+            highScoresLabels[i][0].setBounds(50, initialY + i * labelHeight, 250, labelHeight);
+            highScoresLabels[i][0].setText(" Player "+(i+1)+" :");
+            highScoresLabels[i][0].setFont(new Font("Arial", Font.BOLD, 20));
+            highScoresLabels[i][0].setForeground(Color.white);
+            highScorePanel.add(highScoresLabels[i][0]);
+            
+            
+            highScoresLabels[i][1] = new JLabel("", SwingConstants.RIGHT);
+            highScoresLabels[i][1].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.YELLOW),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-        	highScoresLabels[i][1].setBounds(300, 100, 250,40);
-        	highScoresLabels[i][1].setText(myList.get(i));
-        	highScoresLabels[i][1].setFont(new Font("Arial", Font.BOLD, 24));
-        	highScoresLabels[i][1].setForeground(Color.white);
-        	highScorePanel.add(highScoresLabels[i][1]);	
+            highScoresLabels[i][1].setBounds(300, initialY + i * labelHeight, 250, labelHeight);
+            highScoresLabels[i][1].setText(myList.get(i));
+            highScoresLabels[i][1].setFont(new Font("Arial", Font.BOLD, 24));
+            highScoresLabels[i][1].setForeground(Color.white);
+            highScorePanel.add(highScoresLabels[i][1]);    
         }
+
         highScorePanel.add(separator);
         
         returnButton3.setBackground(null); // Revert background color
@@ -624,7 +625,7 @@ public class GUI
         highScorePanel.add(returnButton3);
         returnButton3.setBounds(230, 525, 130, 40);
 
-     // Add JPanels to main panel
+        // Add JPanels to main panel
         mainPanel.add(introPanel, "intro");
         mainPanel.add(mainMenuPanel, "mainMenu");
         mainPanel.add(gamePanel, "gameplay");
